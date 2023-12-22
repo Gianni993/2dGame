@@ -24,11 +24,19 @@ public class Player extends Entity{
 
     GamePanel gp;
     KeyHandler keyH;
+
+    public final int screenX;
+    public final int screenY;
+
+    
     
     public Player (GamePanel gp, KeyHandler keyH){
 
         this.gp = gp;
         this.keyH = keyH;
+
+        screenX = gp.screenWidth/2 - (gp.tileSize/2);
+        screenY = gp.screenHeight/2 - (gp.tileSize/2);
 
         setDefaultValues();
         getPlayerimage();
@@ -36,12 +44,11 @@ public class Player extends Entity{
     }
     public void setDefaultValues(){
         //posizione iniziale di player 
-        x = (gp.screenWidth/2) - (gp.tileSize/2);
-        y = (gp.screenHeight/2) - (gp.tileSize/2);
+        worldX = gp.tileSize*8;
+        worldY = gp.tileSize*6;
         speed = 4 ; //velocita 4px/frame
         direction = "down"; //direzione iniziale
     }
-
 
     public void getPlayerimage(){
 
@@ -68,26 +75,26 @@ public class Player extends Entity{
         //richiamo funzioni all handler e si collegano tramite le variabili player per far muovere il player
         if(keyH.upPressed == true){     
             direction = "up";
-            y -= speed; //java parte da x:0 y:0 in alto a sx quindi gli assi sono invertiti
+            worldY -= speed; //java parte da x:0 y:0 in alto a sx quindi gli assi sono invertiti
                     
             }
             else if (keyH.downPressed == true) {
                 direction = "down";
-                y += speed;
+                worldY += speed;
             }
             else if (keyH.leftPressed == true) {
                 direction = "left";
-                x -= speed;
+                worldX -= speed;
             }
             else if (keyH.rightPressed == true) {
                 direction = "right";
-                x += speed;     
+                worldX += speed;     
             }
 
            
             spriteCounter++;
             //cambia l immagine ogni 25 fotogrammi, per non far muovere sempre il personaggio
-            if(spriteCounter >25) {  //inserire una if ad inizio metodo update
+            if(spriteCounter >gp.FPS/3) {  //inserire una if ad inizio metodo update
                 if(spriteNum == 1){  // con condizione tutte e 4 le key == true con peratore or ||
                     spriteNum = 2;
                 }
@@ -131,7 +138,7 @@ public class Player extends Entity{
                 break;
         }
         //disegna immagine con posizione x,y grandezza gp
-        g2.drawImage(image, x, y, gp.tileSize,gp.tileSize, null); //https://stackoverflow.com/questions/19212990/what-is-an-imageobserver
+        g2.drawImage(image, screenX, screenY, gp.tileSize,gp.tileSize, null); //https://stackoverflow.com/questions/19212990/what-is-an-imageobserver
     }
 
 }

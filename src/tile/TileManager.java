@@ -3,6 +3,7 @@ package tile;
 import java.awt.Graphics2D;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -20,7 +21,6 @@ public class TileManager {
     File acqua = new File("./res/tiles/acqua.png");
     File erba = new File("./res/tiles/erba.png");
     File muro = new File("./res/tiles/muro.png");
-   // File mappa = new File("./src/maps/map1.txt");
     
     public TileManager(GamePanel gp){
         this.gp = gp;
@@ -54,7 +54,7 @@ public class TileManager {
     public void loadMap(){
 
         try{
-            InputStream is = getClass().getResourceAsStream("./src/maps/map1.txt"); //comando per importare il file txt
+            InputStream is =  new FileInputStream("./src/maps/map1.txt"); //comando per importare il file txt
             BufferedReader br = new BufferedReader(new InputStreamReader(is));          //bufferedReader per leggere il contenuto del txt
 
             int col = 0;

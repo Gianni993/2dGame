@@ -36,8 +36,8 @@ public class Player extends Entity{
     }
     public void setDefaultValues(){
         //posizione iniziale di player 
-        x = 384;
-        y = 288;
+        x = (gp.screenWidth/2) - (gp.tileSize/2);
+        y = (gp.screenHeight/2) - (gp.tileSize/2);
         speed = 4 ; //velocita 4px/frame
         direction = "down"; //direzione iniziale
     }

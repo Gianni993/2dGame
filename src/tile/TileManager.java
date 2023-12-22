@@ -1,8 +1,11 @@
 package tile;
 
 import java.awt.Graphics2D;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 import javax.imageio.ImageIO;
 
@@ -12,16 +15,21 @@ public class TileManager {
 
     GamePanel gp;
     Tile [] tile;
+    int mapTileNum[][];
 
     File acqua = new File("./res/tiles/acqua.png");
     File erba = new File("./res/tiles/erba.png");
     File muro = new File("./res/tiles/muro.png");
+   // File mappa = new File("./src/maps/map1.txt");
     
     public TileManager(GamePanel gp){
         this.gp = gp;
 
         tile = new Tile[10];
+        mapTileNum = new int[gp.maxScreenCol][gp.maxScreenRow]; //variabile appoggio per map1.txt
+
         getTileImage();
+        loadMap();
     }
 
     public void getTileImage(){
@@ -42,14 +50,57 @@ public class TileManager {
         }
 
     }
+
+    public void loadMap(){
+
+        try{
+            InputStream is = getClass().getResourceAsStream("./src/maps/map1.txt"); //comando per importare il file txt
+            BufferedReader br = new BufferedReader(new InputStreamReader(is));          //bufferedReader per leggere il contenuto del txt
+
+            int col = 0;
+            int row = 0;
+
+            while(col < gp.maxScreenCol && row < gp.maxScreenRow){
+
+                String line = br.readLine();            //readLine legge una riga alla volta solo come stringa
+
+                while(col < gp.maxScreenCol) {
+                    
+                    String numbers[] = line.split(" ");
+
+                    int num = Integer.parseInt(numbers[col]);
+
+                    mapTileNum[col][row] = num;
+                    col++;
+
+                }
+                if (col == gp.maxScreenCol){
+                    col = 0;
+                    row++;
+
+                }
+
+            }
+            br.close();
+
+        }catch(Exception e) {}
+
+
+    }
+
+
     public void draw(Graphics2D g2){
 
         int col = 0;
         int row = 0;
         int x = 0;
         int y = 0;
-        while (col < gp.maxScreenCol && row < gp.maxScreenRow ) {
-            g2.drawImage(tile[1].image, x,y ,gp.tileSize,gp.tileSize, null);
+                        //16 tessere            //12 tessere
+        while (col < gp.maxScreenCol && row < gp.maxScreenRow ) {   
+
+            int tileNum = mapTileNum[col][row]; //estrae dalla mappa il numero da stampare
+            
+            g2.drawImage(tile[tileNum].image, x,y ,gp.tileSize,gp.tileSize, null);
             col++;
             x += gp.tileSize;
 
@@ -58,7 +109,10 @@ public class TileManager {
                 x = 0;
                 row++;
                 y += gp.tileSize;
-                //min 13
+
+
+
+               
             }
         }
     }

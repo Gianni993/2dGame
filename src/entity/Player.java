@@ -2,6 +2,7 @@ package entity;
 
 //import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -28,7 +29,7 @@ public class Player extends Entity{
     public final int screenX;
     public final int screenY;
 
-    
+   // int counter2 = 0; bho
     
     public Player (GamePanel gp, KeyHandler keyH){
 
@@ -37,6 +38,13 @@ public class Player extends Entity{
 
         screenX = gp.screenWidth/2 - (gp.tileSize/2);
         screenY = gp.screenHeight/2 - (gp.tileSize/2);
+                           
+        solidArea = new Rectangle(); //poligono per le collisioni
+        solidArea.x = 8; //offset artendo da in alto a sx  per le x (sempre in px)
+        solidArea.y = 16; //offset artendo da in alto a sx  per le y
+        solidArea.width = 32; //larghezza poligono
+        solidArea.height = 32; //altezza
+
 
         setDefaultValues();
         getPlayerimage();
@@ -71,25 +79,37 @@ public class Player extends Entity{
     }
 
     public void update() {
-
         //richiamo funzioni all handler e si collegano tramite le variabili player per far muovere il player
-        if(keyH.upPressed == true){     
+        if(keyH.upPressed == true){    
             direction = "up";
-            worldY -= speed; //java parte da x:0 y:0 in alto a sx quindi gli assi sono invertiti
-                    
-            }
+            if(collisionOn == false){//se non ci sono collisioni entra nel true e accellara
+                worldY -= speed;}
+        }
+             //java parte da x:0 y:0 in alto a sx quindi gli assi sono invertiti
+            
             else if (keyH.downPressed == true) {
                 direction = "down";
-                worldY += speed;
+                if(collisionOn == false){
+                worldY += speed;}
+               
             }
             else if (keyH.leftPressed == true) {
                 direction = "left";
-                worldX -= speed;
+                if(collisionOn == false){
+                worldX -= speed;}
+              
             }
             else if (keyH.rightPressed == true) {
                 direction = "right";
-                worldX += speed;     
+                if(collisionOn == false){
+                worldX += speed;    } 
             }
+            // CHECK TILE COLLISION
+            collisionOn = false;
+            gp.cChecker.checkTile(this);
+
+
+            
 
            
             spriteCounter++;

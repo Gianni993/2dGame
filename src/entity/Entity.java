@@ -1,5 +1,6 @@
 package entity;
 
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
 public class Entity {
@@ -10,6 +11,8 @@ public class Entity {
     public BufferedImage up1, up2, down1, down2, left1, left2, right1, right2;
     public String direction;
 
-    public int spriteCounter = 0; //cambiare png per animare i movimenti
+    public int spriteCounter = 0; // per cambiare png e animare i movimenti
     public int spriteNum = 1;
+    public Rectangle solidArea;
+    public boolean collisionOn = false;
 }

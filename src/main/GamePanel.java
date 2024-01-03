@@ -86,16 +86,16 @@ public class GamePanel extends JPanel implements Runnable{
                     //1)aggiornare le coordinate del personaggio 
                     update();
                      //2)stamapre a video 
-                    repaint();//chiamata strana al metodo paintComponent
+                    repaint();//chiamata al metodo paintComponent
                     delta--; //toglie 1 a delta
                     drawCount++;//fps
 
-            }   //Fps display
+            }   /*Fps display
                 if(timer >=1000000000 ){
                     System.out.println("Fps:" + drawCount);
                     drawCount = 0;
                     timer = 0;
-                }
+                }*/
 
             }
         }

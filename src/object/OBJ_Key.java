@@ -18,7 +18,8 @@ public class OBJ_Key extends SuperObject{
 
         }catch(IOException e){e.printStackTrace();}
 
-
+        //solidArea.x = 5;  valori per determinare il rettangolo delle collisioni esclusivamente per le chiavi
+        //solidArea.y = 5;
     }
     
 }

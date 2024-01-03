@@ -9,7 +9,7 @@ public class OBJ_Chest extends SuperObject {
     public OBJ_Chest(){
         File chest = new File("./res/objects/chest.png");
         
-        name = "chest";
+        name = "Chest";
 
         try{
             image = ImageIO.read(chest);

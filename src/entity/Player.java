@@ -25,11 +25,9 @@ public class Player extends Entity{
 
     GamePanel gp;
     KeyHandler keyH;
-
     public final int screenX;
     public final int screenY;
-
-   // int counter2 = 0; bho
+    int hasKey = 0; //numero di chavi disponibile al giocatore
     
     public Player (GamePanel gp, KeyHandler keyH){
 
@@ -42,6 +40,8 @@ public class Player extends Entity{
         solidArea = new Rectangle(); //poligono per le collisioni
         solidArea.x = 8; //offset artendo da in alto a sx  per le x (sempre in px)
         solidArea.y = 16; //offset artendo da in alto a sx  per le y
+        solidAreaDefaultX = solidArea.x; //valori default per poligono collisoni object
+        solidAreaDefaultY = solidArea.y; //valori default per poligono collisoni object
         solidArea.width = 32; //larghezza poligono
         solidArea.height = 32; //altezza
 
@@ -108,6 +108,11 @@ public class Player extends Entity{
             collisionOn = false;
             gp.cChecker.checkTile(this);
 
+            //CHECK OBJECT COLLISION
+            int objIndex = gp.cChecker.checkObject(this, true);
+            pickUpObject(objIndex);
+
+
             spriteCounter++;
             //cambia l immagine ogni 25 fotogrammi, per non far muovere sempre il personaggio
             if(spriteCounter >gp.FPS/3) {  //inserire una if ad inizio metodo update
@@ -119,9 +124,41 @@ public class Player extends Entity{
                 }
                 spriteCounter = 0;
             }
+    }
+    public void pickUpObject(int i){
+
+        if(i != 999){
+
+            String objectName = gp.obj[i].name;
+
+            switch (objectName) {
+                case "Key":
+                    hasKey ++;
+                    gp.obj[i] = null;
+                    System.out.println("Key"+ hasKey);
+                    break;
+
+                case "Door":
+                    if(hasKey > 0){
+                        gp.obj[i] = null;
+                        hasKey --;
+                    }
+                    System.out.println("Key"+ hasKey);
+                    break;
+                
+                case "Chest":
+                    
+                    break;
             
+            
+            }
+
+        }
+
 
     }
+
+
     public void draw(Graphics2D g2){
 
       //  g2.setColor(Color.green);

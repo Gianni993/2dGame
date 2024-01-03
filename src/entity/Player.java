@@ -82,7 +82,7 @@ public class Player extends Entity{
         //richiamo funzioni all handler e si collegano tramite le variabili player per far muovere il player
         if(keyH.upPressed == true){    
             direction = "up";
-            if(collisionOn == false){//se non ci sono collisioni entra nel true e accellara
+            if(collisionOn == false){//se non ci sono collisioni entra nel true e accelera
                 worldY -= speed;}
         }
              //java parte da x:0 y:0 in alto a sx quindi gli assi sono invertiti
@@ -108,10 +108,6 @@ public class Player extends Entity{
             collisionOn = false;
             gp.cChecker.checkTile(this);
 
-
-            
-
-           
             spriteCounter++;
             //cambia l immagine ogni 25 fotogrammi, per non far muovere sempre il personaggio
             if(spriteCounter >gp.FPS/3) {  //inserire una if ad inizio metodo update

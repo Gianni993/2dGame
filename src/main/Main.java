@@ -7,7 +7,7 @@ public class Main {
         JFrame window = new JFrame();
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Tastino X per chiudere
         window.setResizable(false);                  // Finestra Ridimensionabile: no
-        window.setTitle("2D Adventure");
+        window.setTitle("Napo Adventure");
 
         GamePanel gamePanel = new GamePanel();
         window.add(gamePanel);
@@ -18,6 +18,7 @@ public class Main {
         window.setLocationRelativeTo(null);                 //la finestra verra sempre puntata a centro schermo
         window.setVisible(true);                           //finestra visibile
         
+        gamePanel.setupGame();
         gamePanel.startGameThread();
    
     }

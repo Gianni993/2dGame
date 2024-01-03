@@ -7,6 +7,7 @@ import java.awt.Graphics2D;
 import javax.swing.JPanel;
 
 import entity.Player;
+import object.SuperObject;
 import tile.TileManager;
 
 public class GamePanel extends JPanel implements Runnable{
@@ -34,7 +35,9 @@ public class GamePanel extends JPanel implements Runnable{
     KeyHandler keyH = new KeyHandler();
     Thread gameThread;                             //clock del gioco per creazione game loop
     public CollisionChecker cChecker = new CollisionChecker(this);
+    public AssetSetter aSetter = new AssetSetter(this);
     public Player player = new Player(this, keyH);
+    public SuperObject obj[] = new SuperObject[10]; //si possono visualizzare massimo 10 oggetti contemporanamente in gioco
 
     public GamePanel() {                                //funzione costruttrice
 
@@ -43,6 +46,11 @@ public class GamePanel extends JPanel implements Runnable{
         this.setDoubleBuffered(true);             //www.tutorialspoint.com/what-is-double-buffering-in-java
         this.addKeyListener(keyH);                      //serve per riconoscere l input da tastiera
         this.setFocusable(true);              //https://docs.oracle.com/javase%2Ftutorial%2Fuiswing%2F%2F/misc/focus.html
+    }
+
+    public void setupGame(){
+
+        aSetter.setObject();
     }
 
     public void startGameThread(){                      //metodo start
@@ -100,11 +108,20 @@ public class GamePanel extends JPanel implements Runnable{
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         
-        //sfera bianca
         Graphics2D g2 = (Graphics2D)g;
         
-        tileM.draw(g2);//prima lo sfondo
+        tileM.draw(g2);//prima lo sfondo ( le tile)
+
+        for(int i = 0; i < obj.length ;i++){
+            if(obj[i] != null){     //controlla che l array in posizione di i non sia vuoto e quindi si evita il nullpointer
+                obj[i].draw(g2,this);
+
+            }
+
+        }
+
         player.draw(g2);// e dopo i player
+
 
         g2.dispose();           //utilizzato per rilasciare le risorse mantenute da una finestra o da un componente GUI.
     }

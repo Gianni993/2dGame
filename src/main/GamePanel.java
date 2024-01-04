@@ -25,17 +25,19 @@ public class GamePanel extends JPanel implements Runnable{
     //WORLD SETTINGS
     public final int maxWorldCol = 25;          //far concidere con numero di righe e colonne della mappa sul txt
     public final int maxWorldRow = 25;          // gradezza mondo Col * Row
-    public final int worldWidth = tileSize * maxWorldCol;
-    public final int worldHeight = tileSize * maxWorldRow;
 
     //FPS
     public int FPS = 60;
 
+    //SYS
     TileManager tileM = new TileManager(this);
     KeyHandler keyH = new KeyHandler();
-    Thread gameThread;                             //clock del gioco per creazione game loop
+    Sound sound = new Sound();           
     public CollisionChecker cChecker = new CollisionChecker(this);
     public AssetSetter aSetter = new AssetSetter(this);
+    Thread gameThread; 
+
+    //ENTITY AND OBJECT
     public Player player = new Player(this, keyH);
     public SuperObject obj[] = new SuperObject[10]; //si possono visualizzare massimo 10 oggetti contemporanamente in gioco
 
@@ -51,6 +53,8 @@ public class GamePanel extends JPanel implements Runnable{
     public void setupGame(){
 
         aSetter.setObject();
+
+        playMusic(0);
     }
 
     public void startGameThread(){                      //metodo start
@@ -67,10 +71,9 @@ public class GamePanel extends JPanel implements Runnable{
         double delta = 0;
         long lastTime = System.nanoTime();   //prende il primo orario 
         long currentTime;
-        //Fps display
         long timer = 0;
         int drawCount = 0;
-
+        
 
                 //LOOP GAME (delta)
             while (gameThread != null){ 
@@ -90,7 +93,7 @@ public class GamePanel extends JPanel implements Runnable{
                     delta--; //toglie 1 a delta
                     drawCount++;//fps
 
-            }   /*Fps display
+            }   /*Fps display decommentare anche fps display sopra
                 if(timer >=1000000000 ){
                     System.out.println("Fps:" + drawCount);
                     drawCount = 0;
@@ -125,6 +128,22 @@ public class GamePanel extends JPanel implements Runnable{
 
         g2.dispose();           //utilizzato per rilasciare le risorse mantenute da una finestra o da un componente GUI.
     }
+    public void playMusic(int i){
 
+        sound.setFile(i);
+        sound.play();
+        sound.loop();
+    }
 
+    public void stopMusic(){
+
+        sound.stop();
+    }
+
+    public void playSE(int i){
+
+        sound.setFile(i);
+        sound.play();
+
+    }
 }
